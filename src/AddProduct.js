@@ -19,16 +19,16 @@ function AddProduct() {
     function Add() {
         let item = { desc, product }
         console.log(item);
-        const formData = new FormData();
-        formData.append('product', product);
-        formData.append('desc', desc);
+        // const formData = new FormData();
+        // formData.append('product', product);
+        // formData.append('desc', desc);
         let url = "http://localhost:5000/api/product";
         let result =  fetch(url, {
             method: 'POST',
-            body: formData
+            body: JSON.stringify(item)
         }).then((response)=>{
             console.log(response);
-            navigate("/update");
+            navigate("/list");
         });
         setDesc("");
         setFile("");

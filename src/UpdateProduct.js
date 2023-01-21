@@ -8,7 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 function UpdateProduct() {
     const [data, setData] = useState([]);
     const [desc, setDesc] = useState("");
-    // const [product, setProduct] = useState("");
+    const [product, setFile] = useState("");
     const [userid, setUserid] = useState(null);
     const [show, setShow] = useState(false);
 
@@ -44,7 +44,7 @@ function UpdateProduct() {
         })
     }
     function UpdateUser() {
-        let items = { desc: desc, userid };
+        let items = { desc, product, userid };
         fetch(`http://localhost:5000/api/product/${userid}`, {
             method: 'PUT',
             headers: {
@@ -76,6 +76,10 @@ function UpdateProduct() {
                             <Form.Label>Discreaption</Form.Label>
                             <Form.Control type="text" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Enter Discripation" required />
                         </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicFile">
+                            <Form.Label>Choose Product</Form.Label>
+                            <Form.Control type="file" onChange={(e) => setFile(e.target.files[0])} placeholder="Choose a Product" />
+                        </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
@@ -102,18 +106,18 @@ function UpdateProduct() {
                                 <td>{i + 1}</td>
                                 <td>{item.desc}</td>
                                 <td><img src={"http://localhost:5000/" + item.img[0]} style={{ height: "50px" }} alt="loading..." /></td>
-                                    <tr style={{ display: "initial" }}>
-                                        <td>
-                                            <Button variant="outline-danger" onClick={() => deleteUser(item._id)} className="me-2 mt-3 ml-3">
-                                                delete
-                                            </Button>
-                                        </td>
-                                        <td>
-                                            <Button variant="outline-warning" onClick={() => selectUser(i)} className="me-2 mt-3 ml-3">
-                                                update
-                                            </Button>
-                                        </td>
-                                    </tr>
+                                <tr style={{ display: "initial" }}>
+                                    <td>
+                                        <Button variant="outline-danger" onClick={() => deleteUser(item._id)} className="me-2 mt-3 ml-3">
+                                            delete
+                                        </Button>
+                                    </td>
+                                    <td>
+                                        <Button variant="outline-warning" onClick={() => selectUser(i)} className="me-2 mt-3 ml-3">
+                                            update
+                                        </Button>
+                                    </td>
+                                </tr>
                             </tr>
                         )
                     }
