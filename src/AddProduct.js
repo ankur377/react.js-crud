@@ -28,7 +28,7 @@ function AddProduct() {
             body: formData
         }).then((response)=>{
             console.log(response);
-            navigate("/update");
+            navigate("/list");
         });
         setDesc("");
         setFile("");
