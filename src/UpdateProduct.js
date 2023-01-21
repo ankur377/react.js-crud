@@ -29,6 +29,7 @@ function UpdateProduct() {
             result.json().then((response) => {
                 setData(response)
                 setDesc(response[0].desc);
+                setFile(response[0].img);
                 setUserid(response[0]._id);
             })
         })
@@ -44,23 +45,23 @@ function UpdateProduct() {
         })
     }
     function UpdateUser() {
-        let items = { desc, product, userid };
-        fetch(`http://localhost:5000/api/product/${userid}`, {
+        const formData = new FormData();
+        formData.append('product', product);
+        formData.append('desc', desc);
+        let url = `http://localhost:5000/api/product/${userid}`;
+        console.log(formData);
+        let result = fetch(url, {
             method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Origin': 'https://localhost:3000',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(items)
-        }).then((result) => {
-            result.json().then((response) => {
-                setShow(false);
-                console.log("this is result" + response);
-                console.log(response);
-                getList();
-            })
-        })
+            body: formData
+        }).then((response) => {
+            setShow(false);
+            getList();
+            console.log(response);
+        }).catch((error) => {
+            console.log(error);
+        });
+        setDesc("");
+        setFile("");
     }
     return (
         <div >
@@ -76,9 +77,9 @@ function UpdateProduct() {
                             <Form.Label>Discreaption</Form.Label>
                             <Form.Control type="text" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Enter Discripation" required />
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="formBasicFile">
-                            <Form.Label>Choose Product</Form.Label>
-                            <Form.Control type="file" onChange={(e) => setFile(e.target.files[0])} placeholder="Choose a Product" />
+                        <Form.Group className="mb-3" controlId="formBasicDesc">
+                            <Form.Label>Image</Form.Label>
+                            <Form.Control type="file" onChange={(e) => setFile(e.target.files[0])} required />
                         </Form.Group>
                     </Form>
                 </Modal.Body>

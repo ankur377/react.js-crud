@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import Header from './Header'
 
+
 function AddProduct() {
 
     const navigate = useNavigate();
@@ -17,18 +18,19 @@ function AddProduct() {
     const [product, setFile] = useState("");
 
     function Add() {
-        let item = { desc, product }
-        console.log(item);
-        // const formData = new FormData();
-        // formData.append('product', product);
-        // formData.append('desc', desc);
+        const formData = new FormData();
+        formData.append('product', product);
+        formData.append('desc', desc);
         let url = "http://localhost:5000/api/product";
-        let result =  fetch(url, {
+        console.log(formData);
+        let result = fetch(url, {
             method: 'POST',
-            body: JSON.stringify(item)
-        }).then((response)=>{
-            console.log(response);
+            body: formData
+        }).then((response) => {
             navigate("/list");
+            console.log(response);
+        }).catch((error) => {
+            console.log(error);
         });
         setDesc("");
         setFile("");
@@ -36,7 +38,7 @@ function AddProduct() {
     return (
         <>
             <Header />
-            <Form className='Forms'>
+            <Form className='Forms' >
                 <Form.Group className="mb-3" controlId="formBasicDesc">
                     <Form.Label>Discreaption</Form.Label>
                     <Form.Control type="text" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Enter Discripation" />
